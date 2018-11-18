@@ -14,10 +14,7 @@ theData['new_diag_1'] = pd.to_numeric(theData['diag_1'],errors='coerce') # 'coer
 # Extracting all samples belonging to the group "Respiratory" 
 respiratory = theData.loc[(theData['new_diag_1'] >= 460) & (theData['new_diag_1'] <= 519) | (theData['new_diag_1'] == 786)]
 
-# Extracting all samples belonging to the group "Respiratory" such that they were discharged home: dischargeID = 1 
-respHome = respiratory.loc[respiratory['discharge_disposition_id'] == 1] 
-
-respOther = respiratory.loc[respiratory['discharge_disposition_id'] != 1] 
-
+###### Exporting new CSV Files ###########
+respiratory.to_csv('respiratory_samples.csv')
 
 
