@@ -11,6 +11,9 @@ respHome = respData.loc[respData['discharge_disposition_id'] == 1]
 # Extracting all samples belonging to the group "Respiratory" such that they were NOT discharged to home 
 respOther = respData.loc[respData['discharge_disposition_id'] != 1] 
 
+# To focus on factors leading to early readmission, only measuring the data which with readmission <30 
+home30 = respHome.loc[respHome['readmitted'] == '<30']
+other30 = respOther.loc[respOther['readmitted'] == '<30']
 
 columns = ["Original Data Index","admission_type_id","discharge_disposition_id","diag_1"]
 
