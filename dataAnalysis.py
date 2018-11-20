@@ -133,6 +133,12 @@ plt.show()
 """As the age increases, there an increased the number of patients discharged to go home; a good feature that can help 
 classify the data leadign to being discharged to home or other" """
 
+diabetesResult = respData.groupby(['A1Cresult','discharge_disposition_id']).size().reset_index()
+
+diabetesAnalysis = diabetesResult.loc[((diabetesResult['A1Cresult'] == '>7') & (diabetesResult['discharge_disposition_id'] == 1)) |
+                                      ((diabetesResult['A1Cresult'] == '>8') & (diabetesResult['discharge_disposition_id'] == 1)) |
+                                      ((diabetesResult['A1Cresult'] == 'None') & (diabetesResult['discharge_disposition_id'] == 1)) |
+                                      ((diabetesResult['A1Cresult'] == 'Norm') & (diabetesResult['discharge_disposition_id'] == 1))]
 
 
 
