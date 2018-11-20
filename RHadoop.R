@@ -2,7 +2,7 @@
 library(rmr2) # Map reduce package 
 library(rhdfs) #The library package rhdfs provides commands for file manipulation in terms of reading, writing and moving files
 
-setwd("C:/Users/Shakti/Desktop/5th Year/777/Project") # initialize with the path to your working directory.
+setwd("/home/student2/sbhati/Desktop/BME 777/Project") # initialize with the path to your working directory.
 
 databme777<-read.csv("diabetic_data_V2.csv")  # study the read.csv command parameters and read the dataset csv file.
 
@@ -11,3 +11,20 @@ head(databme777, n = 3) # Retreive the first 3 rows of data
 hdfs.init() # Initialize 
 
 databme777.values <- to.dfs(databme777) # puts the data into HDFS, where the bulk of the data has to reside for mapreduce to operate on
+
+databme777.map.fn <- function(k,v) {
+	p <- which((as.numeric(v[,3]) == 1) & ((as.numeric(v[,8]) >= 460) & (as.numeric(v[,8]) <= 519)) | (as.numeric(v[,8]) == 786))
+keyval(p, v[p,])
+}
+databme777.reduce.fn <- function(k,v) {
+keyval(k,(unlist(v)))
+}
+
+databme777.map.fns <- function(k,v) {
+	p <- which((as.numeric(v[,3]) != 1) & ((as.numeric(v[,8]) >= 460) & (as.numeric(v[,8]) <= 519)) | (as.numeric(v[,8]) == 786))
+keyval(p, v[p,])
+}
+databme777.reduce.fns <- function(k,v) {
+keyval(k,(unlist(v)))
+}
+
