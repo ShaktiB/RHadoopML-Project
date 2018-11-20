@@ -13,7 +13,7 @@ hdfs.init() # Initialize
 databme777.values <- to.dfs(databme777) # puts the data into HDFS, where the bulk of the data has to reside for mapreduce to operate on
 
 databme777.map.fn <- function(k,v) {
-	p <- which((as.numeric(v[,3]) == 1) & ((as.numeric(v[,8]) >= 460) & (as.numeric(v[,8]) <= 519)) | (as.numeric(v[,8]) == 786))
+	p <- which((as.numeric(v[,4]) == 1) & (((as.numeric(v[,8]) >= 460) & (as.numeric(v[,8]) <= 519)) | (as.numeric(v[,8]) == 786)))
 keyval(p, v[p,])
 }
 databme777.reduce.fn <- function(k,v) {
@@ -21,7 +21,7 @@ keyval(k,(unlist(v)))
 }
 
 databme777.map.fns <- function(k,v) {
-	p <- which((as.numeric(v[,3]) != 1) & ((as.numeric(v[,8]) >= 460) & (as.numeric(v[,8]) <= 519)) | (as.numeric(v[,8]) == 786))
+	p <- which( (as.numeric(v[,4]) != 1) & (((as.numeric(v[,8]) >= 460) & (as.numeric(v[,8]) <= 519)) | (as.numeric(v[,8]) == 786)))
 keyval(p, v[p,])
 }
 databme777.reduce.fns <- function(k,v) {
