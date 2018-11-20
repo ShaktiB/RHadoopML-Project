@@ -116,7 +116,22 @@ femaleOtherStats = femaleOtherStats.drop(columns,axis=1)
 """This split of data also shows that there is little variance between the males and females in their attributes in their 
 respective classification of either being discharged home or other"""
 
+##### Observing the effects of age on the probability of patients being discharged home
+ageHome1 = respHome.groupby(['age','discharge_disposition_id']).size()
 
+xlabels = ['0-10','10-20','20-30','30-40','40-50','50-60','60-70','70-80','80-90','90-100']
+y_age = np.arange(len(xlabels))
+
+plt.figure()
+plt.plot(y_age,ageHome1)
+plt.xticks(y_age, xlabels)
+plt.ylabel('Number of Home Discharges')
+plt.xlabel('Age')
+plt.title('Home Discharges Based on Age')
+plt.show()
+
+"""As the age increases, there an increased the number of patients discharged to go home; a good feature that can help 
+classify the data leadign to being discharged to home or other" """
 
 
 
