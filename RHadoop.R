@@ -28,3 +28,27 @@ databme777.reduce.fns <- function(k,v) {
 keyval(k,(unlist(v)))
 }
 
+dataex <- mapreduce(input= databme777.values ,
+                   map = databme777.map.fn,
+                   reduce = databme777.reduce.fn)
+
+dataexs <- mapreduce(input=databme777.values ,
+                   map =databme777.map.fns ,
+                   reduce = databme777.reduce.fns)
+
+new_var<-from.dfs(dataex)
+k<- unlist(new_var[2])
+l <- length(k)/10
+#k <- rbind(as.data.frame(new_var[2]))
+#j <- as.data.frame(k[!duplicated(as.data.frame(k)),])
+
+new_vars<-from.dfs(dataexs)
+q<- unlist(new_vars[2])
+ll <- length(q)/10
+#q <- rbind(as.data.frame(new_vars[2]))
+#i <- as.data.frame(q[!duplicated(as.data.frame(q)),])
+
+y<-matrix(k,nrow=l,ncol=10,byrow=TRUE)
+w<-matrix(q,nrow=ll,ncol=10,byrow=TRUE)
+write.csv(y,'BME777_BigData_Extract_class1.csv')
+write.csv(w,'BME777_BigData_Extract_class2.csv')
