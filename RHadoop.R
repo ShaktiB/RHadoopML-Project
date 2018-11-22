@@ -4,7 +4,7 @@ library(rhdfs) #The library package rhdfs provides commands for file manipulatio
 
 setwd("/home/student2/sbhati/Desktop/BME 777/Project") # initialize with the path to your working directory.
 
-databme777<-read.csv("diabetic_data_V2.csv")  # study the read.csv command parameters and read the dataset csv file.
+databme777 <-read.csv("diabetic_data_V2.csv", header=T, stringsAsFactors=FALSE) # study the read.csv command parameters and read the dataset csv file
 
 head(databme777, n = 3) # Retreive the first 3 rows of data 
 
