@@ -1,5 +1,7 @@
 import numpy as np
 import pandas as pd 
+import matplotlib.pyplot as plt 
+from respfunctions import convertage 
 
 ################# Load data and store in a new variable #################
 
@@ -28,6 +30,9 @@ respO = respO[(respO['Gender'] == 'Male')|(respO['Gender'] == 'Female')]
 
 respH = respH[(respH['Age'] != 'Male') & (respH['Age'] != 'Female')]
 respO = respO[(respO['Age'] != 'Male') & (respO['Age'] != 'Female')]
+
+# Creating numeric version of the 'Age' data which is currently an object and cannot be functionaly changed to numerics
+respH['Age2']= respH.apply (lambda row: convertage(row),axis=1)
 
 ############### Convert Data Types #####################
 #Converting 'admission type' and 'diagnosis' data to numeric data instead of string
@@ -61,8 +66,12 @@ avgFemaleH = (genderCountH[0]/len(respH)) * 100
 avgMaleO = (genderCountO[1]/len(respO)) * 100
 avgFemaleO = (genderCountO[0]/len(respO)) * 100
 
-print('Male % (Home):', avgMaleH)
-print('Female % (Home):', avgFemaleH)
-print('Male % (Other):', avgMaleO)
-print('Female % (Other):', avgFemaleO)
+print('Male % (Home):', format(avgMaleH, '.2f'))
+print('Female % (Home):', format(avgFemaleH, '.2f'))
+print('Male % (Other):', format(avgMaleO, '.2f'))
+print('Female % (Other):', format(avgFemaleO, '.2f'))
+
+
+
+
 
