@@ -33,6 +33,7 @@ respO = respO[(respO['Age'] != 'Male') & (respO['Age'] != 'Female')]
 
 # Creating numeric version of the 'Age' data which is currently an object and cannot be functionaly changed to numerics
 respH['Age2']= respH.apply (lambda row: convertage(row),axis=1)
+respO['Age2']= respH.apply (lambda row: convertage(row),axis=1)
 
 ############### Convert Data Types #####################
 #Converting 'admission type' and 'diagnosis' data to numeric data instead of string
