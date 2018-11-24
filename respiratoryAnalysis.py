@@ -61,5 +61,8 @@ avgFemaleH = (genderCountH[0]/len(respH)) * 100
 avgMaleO = (genderCountO[1]/len(respO)) * 100
 avgFemaleO = (genderCountO[0]/len(respO)) * 100
 
-print('Male % (Home):', avgMaleH
-print('Femal % (Home):', avgFemaleH)
+print('Male % (Home):', avgMaleH)
+print('Female % (Home):', avgFemaleH)
+print('Male % (Other):', avgMaleO)
+print('Female % (Other):', avgFemaleO)
+
