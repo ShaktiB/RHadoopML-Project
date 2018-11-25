@@ -100,7 +100,7 @@ x_labels = ['10-20','30-40','50-60','70-80','90-100']
 #plt.title('Distribution of Age of People Discharged to Ohter Facilities')
 #plt.show()
 
-# Histograms 
+### Histograms #####
 
 theLegend = ['Discharged Home', 'Discharged Other']
 
@@ -112,5 +112,19 @@ plt.title('Distribution of Age')
 plt.legend(theLegend)
 plt.show()
 
+# Analysis of the Admission Types in both classes
+uniqueH, countsH = np.unique(aTypeH, return_counts=True) # Returns the occurences of each admission type 
+admissionH = dict(zip(uniqueH, countsH)) # Puts the information into a dict 
+
+uniqueO, countsO = np.unique(aTypeO, return_counts=True) # Returns the occurences of each admission type 
+admissionO = dict(zip(uniqueO, countsO)) # Puts the information into a dict
+
+plt.figure()
+plt.hist([aTypeH,aTypeO],bins=8,color = ['orange','green'])
+plt.ylabel('Count')
+plt.xlabel('Admission Type')
+plt.title('Distribution of Admission Types')
+plt.legend(theLegend)
+plt.show()
 
 
