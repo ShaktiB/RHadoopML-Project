@@ -160,10 +160,10 @@ lenO = len(respO) # Number of samples in class Other
 
 class1 = np.array(respH[['Age2', 'Time_in_Hospital','Num_of_Lab_Procedures','Medications']].sample(n=lenO))
 class2 = np.array(respO[['Age2', 'Time_in_Hospital','Num_of_Lab_Procedures','Medications']])
-classes = np.append(class1,class2)
+classes = np.append(class1,class2,axis=0)
 
 ### Creating normalized feature arrays ######
 x1 = normalize(classes[:,0]) # Age
 x2 = normalize(classes[:,1]) # Time in Hospital 
 x3 = normalize(classes[:,2]) # Number of lab procecures 
-x4 = normalize(classes[:,4]) # Number of medications 
+x4 = normalize(classes[:,3]) # Number of medications 
