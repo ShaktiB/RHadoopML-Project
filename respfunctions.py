@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd 
+import statistics as st
 
 def convertage(row):
     
@@ -33,5 +34,18 @@ def convertage(row):
     if row['Age'] == '[90-100)':
         return 100
     
+def normalize(data):
     
+    theMean = st.mean(data)
+    theStd = st.stdev(data)
+    newData = np.arange(len(data))
+    newData = newData.astype(float)
+    print(theMean)
+    print(theStd)
+    
+    for i in range(len(data)):
+        newData[i] = ((data[i]) - theMean)/theStd
+    
+    return newData
+        
     
