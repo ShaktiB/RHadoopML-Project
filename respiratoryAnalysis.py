@@ -43,9 +43,16 @@ dataTypesO = respO.dtypes
 
 aTypeH = np.array(pd.to_numeric(respH['Admission_Type'])) # Admission type data (HOME)
 diagH = np.array(pd.to_numeric(respH['Diagnosis'])) # Diagnosis data (HOME)
+respH['AdmissionType'] = aTypeH
+respH['Diagnosis1'] = diagH
 
 aTypeO = np.array(pd.to_numeric(respO['Admission_Type'])) # Admission type data (OTHER)
 diagO = np.array(pd.to_numeric(respO['Diagnosis'])) # Diagnosis data (OTHER)
+respO['AdmissionType'] = aTypeO
+respO['Diagnosis1'] = diagO
+
+respH['Medications'] = pd.to_numeric(respH['Num_of_Medications'])
+respO['Medications'] = pd.to_numeric(respO['Num_of_Medications'])
 
 ############ Data Analysis #########################
 
