@@ -158,8 +158,12 @@ avgReadmO = (readmCountO/len(respO))*100
 
 lenO = len(respO) # Number of samples in class Other
 
+class1 = np.array(respH[['Age2', 'Time_in_Hospital','Num_of_Lab_Procedures','Medications']].sample(n=lenO))
+class2 = np.array(respO[['Age2', 'Time_in_Hospital','Num_of_Lab_Procedures','Medications']])
+classes = np.append(class1,class2)
+
 ### Creating normalized feature arrays ######
-x1H = np.array(respH['Age2'].sample(n=lenO))
-x1O = np.array(respO['Age2'])
-x11 = np.append(x1H,x1O) 
-x1 = normalize(x1) # Age
+x1 = normalize(classes[:,0]) # Age
+x2 = normalize(classes[:,1]) # Time in Hospital 
+x3 = normalize(classes[:,2]) # Number of lab procecures 
+x4 = normalize(classes[:,4]) # Number of medications 
