@@ -164,6 +164,7 @@ lenO = len(respO) # Number of samples in class Other
 class1 = np.array(respH[['Age2', 'Time_in_Hospital','Num_of_Lab_Procedures','Medications','Discharge']].sample(n=lenO))
 class2 = np.array(respO[['Age2', 'Time_in_Hospital','Num_of_Lab_Procedures','Medications','Discharge']])
 classes = np.append(class1,class2,axis=0)
+np.random.shuffle(classes) # Randomize the array 
 
 ### Creating normalized feature arrays ######
 x1 = normalize(classes[:,0]) # Age
@@ -173,3 +174,49 @@ x4 = normalize(classes[:,3]) # Number of medications
 
 target = np.where(classes[:,4]==1,1,(-1)) # classification targets 
 
+############## Neural Network ###############################
+# 4-3-1 Neural network 
+
+# Initialization 
+
+eta = 0.1
+theta = 0.001
+maxIterations = 300
+
+# Random initial weight vectors 
+wih1 = np.array([0.69, 0.10, 0.75, 0.39, 0.41]) # Weight vector --> input to hidden node 1 
+wih2 = np.array([0.65, 0.83, 0.37, 0.15, 0.32]) # Weight vector --> input to hidden node 2
+wih3 = np.array([0.35, 0.95, 0.25, 0.62, 0.45]) # Weight vector --> input to hidden node 3 
+woh1 = np.array([0.42, 0.59, 0.56, 0.75]) # Weight vector --> hidden layer to output node 
+
+j = np.zeros(maxIterations,1) # Cost 
+
+r = 0;
+
+while(r<len(x1)):
+      
+    deltaWih1 = np.array([0, 0, 0, 0, 0]) # Inputs of bias, x1,x2,x3,x4 to hidden neuron 1
+    deltaWih2 = np.array([0, 0, 0, 0, 0]) # Inputs of bias, x1,x2,x3,x4 to hidden neuron 2
+    deltaWih3 = np.array([0, 0, 0, 0, 0]) # Inputs of bias, x1,x2,x3,x4 to hidden neuron 3
+    deltaWoh1 = np.array([0, 0, 0, 0]) # Inputs of bias, y1, y2, y3 to output neuron 1
+    
+    # Initialize training sample order and predicted output.
+    
+    m = 0;
+    Z = np.zeros(1,len(x1))
+    
+    # Initializaing training data 
+    x11 = x1
+    x22 = x2
+    x33 = x3
+    x44 = x4
+    
+    # Initializaing test point for Leave-One-Out Method 
+    testx1 = x11[r]
+    testx2 = x22[r]
+    testx3 = x33[r]
+    testx4 = x44[r]
+    
+    x11 = np.delete(x11,r)
+    
+    r = r+1 # Incrementing the epoch 
