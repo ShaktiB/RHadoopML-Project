@@ -37,7 +37,7 @@ respH['Age2']= respH.apply (lambda row: convertage(row),axis=1)
 respO['Age2']= respO.apply (lambda row: convertage(row),axis=1)
 
 ############### Convert Data Types #####################
-#Converting 'admission type' and 'diagnosis' data to numeric data instead of string
+#Converting 'admission type', 'diagnosis', 'medications', 'discharge disposition' data to numeric data instead of string
 
 aTypeH = np.array(pd.to_numeric(respH['Admission_Type'])) # Admission type data (HOME)
 diagH = np.array(pd.to_numeric(respH['Diagnosis'])) # Diagnosis data (HOME)
@@ -51,6 +51,9 @@ respO['Diagnosis1'] = diagO
 
 respH['Medications'] = pd.to_numeric(respH['Num_of_Medications'])
 respO['Medications'] = pd.to_numeric(respO['Num_of_Medications'])
+
+respH['Discharge'] = pd.to_numeric(respH['Discharge_Disposition'])
+respO['Discharge'] = pd.to_numeric(respO['Discharge_Disposition'])
 
 dataTypesH = respH.dtypes 
 dataTypesO = respO.dtypes
@@ -158,8 +161,8 @@ avgReadmO = (readmCountO/len(respO))*100
 
 lenO = len(respO) # Number of samples in class Other
 
-class1 = np.array(respH[['Age2', 'Time_in_Hospital','Num_of_Lab_Procedures','Medications']].sample(n=lenO))
-class2 = np.array(respO[['Age2', 'Time_in_Hospital','Num_of_Lab_Procedures','Medications']])
+class1 = np.array(respH[['Age2', 'Time_in_Hospital','Num_of_Lab_Procedures','Medications','Discharge']].sample(n=lenO))
+class2 = np.array(respO[['Age2', 'Time_in_Hospital','Num_of_Lab_Procedures','Medications','Discharge']])
 classes = np.append(class1,class2,axis=0)
 
 ### Creating normalized feature arrays ######
@@ -167,3 +170,6 @@ x1 = normalize(classes[:,0]) # Age
 x2 = normalize(classes[:,1]) # Time in Hospital 
 x3 = normalize(classes[:,2]) # Number of lab procecures 
 x4 = normalize(classes[:,3]) # Number of medications 
+
+target = np.where(classes[:,4]==1,1,(-1)) # classification targets 
+
