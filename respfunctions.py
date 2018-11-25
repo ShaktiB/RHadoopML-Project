@@ -40,8 +40,6 @@ def normalize(data):
     theStd = st.stdev(data)
     newData = np.arange(len(data))
     newData = newData.astype(float)
-    print(theMean)
-    print(theStd)
     
     for i in range(len(data)):
         newData[i] = ((data[i]) - theMean)/theStd
