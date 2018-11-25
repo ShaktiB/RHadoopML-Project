@@ -1,7 +1,8 @@
 import numpy as np
 import pandas as pd 
 import matplotlib.pyplot as plt 
-from respfunctions import convertage 
+from respfunctions import convertage
+from respfunctions import normalize
 
 ################# Load data and store in a new variable #################
 
@@ -38,9 +39,6 @@ respO['Age2']= respO.apply (lambda row: convertage(row),axis=1)
 ############### Convert Data Types #####################
 #Converting 'admission type' and 'diagnosis' data to numeric data instead of string
 
-dataTypesH = respH.dtypes 
-dataTypesO = respO.dtypes 
-
 aTypeH = np.array(pd.to_numeric(respH['Admission_Type'])) # Admission type data (HOME)
 diagH = np.array(pd.to_numeric(respH['Diagnosis'])) # Diagnosis data (HOME)
 respH['AdmissionType'] = aTypeH
@@ -53,6 +51,9 @@ respO['Diagnosis1'] = diagO
 
 respH['Medications'] = pd.to_numeric(respH['Num_of_Medications'])
 respO['Medications'] = pd.to_numeric(respO['Num_of_Medications'])
+
+dataTypesH = respH.dtypes 
+dataTypesO = respO.dtypes
 
 ############ Data Analysis #########################
 
@@ -134,4 +135,31 @@ plt.title('Distribution of Admission Types')
 plt.legend(theLegend)
 plt.show()
 
+# A1C Result Analysis 
 
+a1cCountH = respH['A1CResult'].value_counts()
+a1cCountO = respO['A1CResult'].value_counts()
+
+avgA1cH = (a1cCountH/len(respH))*100
+avgA1cO = (a1cCountO/len(respO))*100
+print('Average A1C Results in class Home:', avgA1cH)
+print()
+print('Average A1C Results in class Other:', avgA1cO)
+
+# Redadmitted data analysis 
+
+readmCountH = respH['Readmitted'].value_counts()
+readmCountO = respO['Readmitted'].value_counts()
+
+avgReadmH = (readmCountH/len(respH))*100
+avgReadmO = (readmCountO/len(respO))*100
+
+############################# Set up data for Neural Network  #########################################
+
+lenO = len(respO) # Number of samples in class Other
+
+### Creating normalized feature arrays ######
+x1H = np.array(respH['Age2'].sample(n=lenO))
+x1O = np.array(respO['Age2'])
+x11 = np.append(x1H,x1O) 
+x1 = normalize(x1) # Age
