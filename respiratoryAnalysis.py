@@ -33,7 +33,7 @@ respO = respO[(respO['Age'] != 'Male') & (respO['Age'] != 'Female')]
 
 # Creating numeric version of the 'Age' data which is currently an object and cannot be functionaly changed to numerics
 respH['Age2']= respH.apply (lambda row: convertage(row),axis=1)
-respO['Age2']= respH.apply (lambda row: convertage(row),axis=1)
+respO['Age2']= respO.apply (lambda row: convertage(row),axis=1)
 
 ############### Convert Data Types #####################
 #Converting 'admission type' and 'diagnosis' data to numeric data instead of string
@@ -72,7 +72,45 @@ print('Female % (Home):', format(avgFemaleH, '.2f'))
 print('Male % (Other):', format(avgMaleO, '.2f'))
 print('Female % (Other):', format(avgFemaleO, '.2f'))
 
+# Age Data 
+ageCountH = respH['Age2'].value_counts(sort=False) # Count the number of people in each age group 
+ageCountH=ageCountH.sort_index() # Sort the age index to go from 10 to 100 
 
+ageCountO = respO['Age2'].value_counts(sort=False) 
+ageCountO=ageCountO.sort_index()
+
+x_axis = np.arange(0,len(ageCountH)/2)
+x_labels = ['10-20','30-40','50-60','70-80','90-100']
+
+## Plot of age distribution in class Home  --> BAR GRAPHS
+#plt.figure()
+#plt.bar(x_axis,ageCountH)
+#plt.xticks(x_axis, x_labels)
+#plt.ylabel('Count')
+#plt.xlabel('Age')
+#plt.title('Distribution of Age of People Discharged Home')
+#plt.show()
+#
+## Plot of age distribution in class Other --> BAR GRAPHS
+#plt.figure()
+#plt.bar(x_axis,ageCountO)
+#plt.xticks(x_axis, x_labels)
+#plt.ylabel('Count')
+#plt.xlabel('Age')
+#plt.title('Distribution of Age of People Discharged to Ohter Facilities')
+#plt.show()
+
+# Histograms 
+
+theLegend = ['Discharged Home', 'Discharged Other']
+
+plt.figure()
+plt.hist([respH['Age2'],respO['Age2']],bins=10,color = ['orange','green'])
+plt.ylabel('Count')
+plt.xlabel('Age')
+plt.title('Distribution of Age')
+plt.legend(theLegend)
+plt.show()
 
 
 
