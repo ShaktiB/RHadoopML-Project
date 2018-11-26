@@ -71,6 +71,7 @@ print()
 print('Class Other stats')
 print(statsO)
 
+# Avg number of males and females in both classes 
 genderCountH = respH['Gender'].value_counts()
 genderCountO = respO['Gender'].value_counts()
 
@@ -94,26 +95,9 @@ ageCountO=ageCountO.sort_index()
 x_axis = np.arange(0,len(ageCountH)/2)
 x_labels = ['10-20','30-40','50-60','70-80','90-100']
 
-## Plot of age distribution in class Home  --> BAR GRAPHS
-#plt.figure()
-#plt.bar(x_axis,ageCountH)
-#plt.xticks(x_axis, x_labels)
-#plt.ylabel('Count')
-#plt.xlabel('Age')
-#plt.title('Distribution of Age of People Discharged Home')
-#plt.show()
-#
-## Plot of age distribution in class Other --> BAR GRAPHS
-#plt.figure()
-#plt.bar(x_axis,ageCountO)
-#plt.xticks(x_axis, x_labels)
-#plt.ylabel('Count')
-#plt.xlabel('Age')
-#plt.title('Distribution of Age of People Discharged to Ohter Facilities')
-#plt.show()
-
 ### Histograms #####
 
+# Analysis of the age in both classes 
 theLegend = ['Discharged Home', 'Discharged Other']
 
 plt.figure()
@@ -158,6 +142,7 @@ readmCountO = respO['Readmitted'].value_counts()
 avgReadmH = (readmCountH/len(respH))*100
 avgReadmO = (readmCountO/len(respO))*100
 
+
 ############################# Set up data for Neural Network  #########################################
 
 lenO = len(respO) # Number of samples in class Other
@@ -167,7 +152,7 @@ class2 = np.array(respO[['Age2', 'Time_in_Hospital','Num_of_Lab_Procedures','Med
 classes = np.append(class1,class2,axis=0)
 np.random.shuffle(classes) # Randomize the array 
 
-n = 200 # Number of samples 
+n = 2500 # Number of samples 
 
 ### Creating normalized feature arrays ######
 x1 = normalize(classes[:n,0]) # Age
@@ -175,7 +160,9 @@ x2 = normalize(classes[:n,1]) # Time in Hospital
 x3 = normalize(classes[:n,2]) # Number of lab procecures 
 x4 = normalize(classes[:n,3]) # Number of medications 
 
-target = np.where(classes[:n,4]==1,1,(-1)) # classification targets 
+target = np.where(classes[:n,4]==1,1,(-1))
+
+## Last github save point 
 
 ############## Neural Network ###############################
 # 4-3-1 Neural network 
@@ -191,6 +178,11 @@ wih1 = np.array([0.69, 0.10, 0.75, 0.39, 0.41]) # Weight vector --> input to hid
 wih2 = np.array([0.65, 0.83, 0.37, 0.15, 0.32]) # Weight vector --> input to hidden node 2
 wih3 = np.array([0.35, 0.95, 0.25, 0.62, 0.45]) # Weight vector --> input to hidden node 3 
 who1 = np.array([0.42, 0.59, 0.56, 0.75]) # Weight vector --> hidden layer to output node 
+
+#wih1 = np.array([1.5, 0.93, 0.45, 0.12, 0.68]) # Weight vector --> input to hidden node 1 
+#wih2 = np.array([0.15, 0.35, 0.45, 0.65, 0.05]) # Weight vector --> input to hidden node 2
+#wih3 = np.array([0.35, 0.55, 0.15, 1.10, 0.20]) # Weight vector --> input to hidden node 3 
+#who1 = np.array([0.42, 1.59, 0.05, 0.35]) # Weight vector --> hidden layer to output node
 
 j = np.zeros(len(x1)) # Cost 
 
@@ -209,7 +201,7 @@ while(r<len(x1)):
     # Initialize training sample order and predicted output.
     
     m = 0;
-    Z = np.zeros(1,len(x1)-1)
+    Z = np.zeros(len(x1)-1)
     
     # Initializaing training data 
     x11 = x1
@@ -217,7 +209,7 @@ while(r<len(x1)):
     x33 = x3
     x44 = x4
     t = target
-    
+        
     # Initializaing test point for Leave-One-Out Method 
     testx1 = x11[r]
     testx2 = x22[r]
@@ -228,9 +220,11 @@ while(r<len(x1)):
     x11 = np.delete(x11,r)
     x22 = np.delete(x22,r)
     x33 = np.delete(x33,r)
-    x44 = np.delete(x44,r)        
+    x44 = np.delete(x44,r)
     t = np.delete(t,r)
-              
+    
+#    r = r+1 # Incrementing the epoch 
+    
     while(m<len(x11)):
         
         Xm = np.array([1, x11[m], x22[m], x33[m], x44[m]]) # Input features 
@@ -245,7 +239,7 @@ while(r<len(x1)):
         netk_1 = np.dot(Ym,who1)
         Z[m] = np.tanh(netk_1)
         
-        # Calculate the sensitivity value of each hidden neuron and the output neuron
+        # Calculate the sensitivity value of each hidden neuron and the output neuron.
         
         deltaO1 = np.dot( (t[m] - Z[m]), (1 - (np.tanh(netk_1))**2) ) # Sensitivity value of the output neuron
         deltaH1 = (1-(np.tanh(y1))**2)*who1[1]*deltaO1 # Sensitivity value of hidden neuron 1
@@ -253,7 +247,7 @@ while(r<len(x1)):
         deltaH3 = (1-(np.tanh(y3))**2)*who1[3]*deltaO1 # Sensitivity value of hidden neuron 3
         
         # Update the gradient
-        
+            
         deltaWih1 = deltaWih1 + eta*deltaH1*Xm 
         deltaWih2 = deltaWih2 + eta*deltaH2*Xm
         deltaWih3 = deltaWih3 + eta*deltaH3*Xm 
@@ -291,5 +285,6 @@ while(r<len(x1)):
         wrong = wrong + 1
         
     accuracy = (right/len(x1))*100
-    r = r+1 # Incrementing the epoch         
+    r = r+1 # Incrementing the epoch
 
+ 
