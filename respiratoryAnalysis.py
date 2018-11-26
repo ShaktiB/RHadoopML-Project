@@ -210,14 +210,20 @@ while(r<len(x1)):
     x22 = x2
     x33 = x3
     x44 = x4
+    t = target
     
     # Initializaing test point for Leave-One-Out Method 
     testx1 = x11[r]
     testx2 = x22[r]
     testx3 = x33[r]
     testx4 = x44[r]
+    testTar = t[r]
     
     x11 = np.delete(x11,r)
+    x22 = np.delete(x22,r)
+    x33 = np.delete(x33,r)
+    x44 = np.delete(x44,r)        
+    t = np.delete(t,r)
     
     r = r+1 # Incrementing the epoch 
             
