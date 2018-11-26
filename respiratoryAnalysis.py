@@ -3,6 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt 
 from respfunctions import convertage
 from respfunctions import normalize
+import math
 
 ################# Load data and store in a new variable #################
 
@@ -191,6 +192,9 @@ who1 = np.array([0.42, 0.59, 0.56, 0.75]) # Weight vector --> hidden layer to ou
 
 j = np.zeros(len(x1)) # Cost 
 
+right = 0
+wrong = 0
+
 r = 0;
 
 while(r<len(x1)):
@@ -242,6 +246,50 @@ while(r<len(x1)):
         Z[m] = np.tanh(netk_1)
         
         # Calculate the sensitivity value of each hidden neuron and the output neuron
+        
+        deltaO1 = np.dot( (t[m] - Z[m]), (1 - (np.tanh(netk_1))**2) ) # Sensitivity value of the output neuron
+        deltaH1 = (1-(np.tanh(y1))**2)*who1[1]*deltaO1 # Sensitivity value of hidden neuron 1
+        deltaH2 = (1-(np.tanh(y2))**2)*who1[2]*deltaO1 # Sensitivity value of hidden neuron 2
+        deltaH3 = (1-(np.tanh(y3))**2)*who1[3]*deltaO1 # Sensitivity value of hidden neuron 3
+        
+        # Update the gradient
+        
+        deltaWih1 = deltaWih1 + eta*deltaH1*Xm 
+        deltaWih2 = deltaWih2 + eta*deltaH2*Xm
+        deltaWih3 = deltaWih3 + eta*deltaH3*Xm 
+        deltaWho1 = deltaWho1 + eta*deltaO1*Ym
+        
+        m = m + 1
+        
+    # Update the weight vectors
     
+    wih1 = wih1 + deltaWih1 # Weight vector input to hidden unit no.1
+    wih2 = wih2 + deltaWih2 # Weight vector input to hidden unit no.2
+    wih3 = wih3 + deltaWih3 # Weight vector input to hidden unit no.3
+    who1 = who1 + deltaWho1 # Weight vector hidden to output unit
+    
+    # Cost 
+    j[r] = 0.5*(math.sqrt(sum((t-Z)**2)))
+    
+    # testing ---> the feed forward network from above 
+    
+    testPoint = np.array([1, testx1, testx2, testx3, testx4])
+    
+    test_y1 = np.dot(wih1, testPoint)
+    test_y2 = np.dot(wih2, testPoint)
+    test_y3 = np.dot(wih3, testPoint)
+    
+    test_Ym = np.array([1, np.tanh(test_y1), np.tanh(test_y2), np.tanh(test_y3)])
+    test_netk_1 = np.dot(test_Ym,who1)
+    testZ = np.tanh(test_netk_1)
+    
+    if ((testZ > 0) & (t>0)):
+        right = right + 1
+    elif ((testZ < 0) & (t<0)):
+        right = right + 1
+    else:
+        wrong = wrong + 1
+        
+    accuracy = (right/len(x1))*100
 
 
