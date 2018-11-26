@@ -187,7 +187,7 @@ maxIterations = 300
 wih1 = np.array([0.69, 0.10, 0.75, 0.39, 0.41]) # Weight vector --> input to hidden node 1 
 wih2 = np.array([0.65, 0.83, 0.37, 0.15, 0.32]) # Weight vector --> input to hidden node 2
 wih3 = np.array([0.35, 0.95, 0.25, 0.62, 0.45]) # Weight vector --> input to hidden node 3 
-woh1 = np.array([0.42, 0.59, 0.56, 0.75]) # Weight vector --> hidden layer to output node 
+who1 = np.array([0.42, 0.59, 0.56, 0.75]) # Weight vector --> hidden layer to output node 
 
 j = np.zeros(maxIterations,1) # Cost 
 
@@ -198,7 +198,7 @@ while(r<len(x1)):
     deltaWih1 = np.array([0, 0, 0, 0, 0]) # Inputs of bias, x1,x2,x3,x4 to hidden neuron 1
     deltaWih2 = np.array([0, 0, 0, 0, 0]) # Inputs of bias, x1,x2,x3,x4 to hidden neuron 2
     deltaWih3 = np.array([0, 0, 0, 0, 0]) # Inputs of bias, x1,x2,x3,x4 to hidden neuron 3
-    deltaWoh1 = np.array([0, 0, 0, 0]) # Inputs of bias, y1, y2, y3 to output neuron 1
+    deltaWho1 = np.array([0, 0, 0, 0]) # Inputs of bias, y1, y2, y3 to output neuron 1
     
     # Initialize training sample order and predicted output.
     
@@ -220,3 +220,22 @@ while(r<len(x1)):
     x11 = np.delete(x11,r)
     
     r = r+1 # Incrementing the epoch 
+            
+    while(m<lengthX11):
+        
+        Xm = np.array([1, x11[m], x22[m], x33[m], x44[m]]) # Input features 
+        
+        y1 = np.dot(wih1, Xm)
+        y2 = np.dot(wih2, Xm)
+        y3 = np.dot(wih3, Xm)
+        
+        # sigmoid = a*tanh(b*xm) where a=b=1 
+        
+        Ym = np.array([1, np.tanh(y1), np.tanh(y2), np.tanh(y3)]) # applying activation function on the hidden layer 
+        netk_1 = np.dot(Ym,who1)
+        Z[m] = np.tanh(netk_1)
+        
+        # Calculate the sensitivity value of each hidden neuron and the output neuron
+    
+
+
