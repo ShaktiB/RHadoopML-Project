@@ -167,22 +167,24 @@ class2 = np.array(respO[['Age2', 'Time_in_Hospital','Num_of_Lab_Procedures','Med
 classes = np.append(class1,class2,axis=0)
 np.random.shuffle(classes) # Randomize the array 
 
-### Creating normalized feature arrays ######
-x1 = normalize(classes[:,0]) # Age
-x2 = normalize(classes[:,1]) # Time in Hospital 
-x3 = normalize(classes[:,2]) # Number of lab procecures 
-x4 = normalize(classes[:,3]) # Number of medications 
+n = 200 # Number of samples 
 
-target = np.where(classes[:,4]==1,1,(-1)) # classification targets 
+### Creating normalized feature arrays ######
+x1 = normalize(classes[:n,0]) # Age
+x2 = normalize(classes[:n,1]) # Time in Hospital 
+x3 = normalize(classes[:n,2]) # Number of lab procecures 
+x4 = normalize(classes[:n,3]) # Number of medications 
+
+target = np.where(classes[:n,4]==1,1,(-1)) # classification targets 
 
 ############## Neural Network ###############################
 # 4-3-1 Neural network 
 
 # Initialization 
 
-eta = 0.1
-theta = 0.001
-maxIterations = 300
+eta = 0.01
+#theta = 0.001
+#maxIterations = 300
 
 # Random initial weight vectors 
 wih1 = np.array([0.69, 0.10, 0.75, 0.39, 0.41]) # Weight vector --> input to hidden node 1 
@@ -228,10 +230,8 @@ while(r<len(x1)):
     x33 = np.delete(x33,r)
     x44 = np.delete(x44,r)        
     t = np.delete(t,r)
-    
-    r = r+1 # Incrementing the epoch 
-            
-    while(m<lengthX11-1):
+              
+    while(m<len(x11)):
         
         Xm = np.array([1, x11[m], x22[m], x33[m], x44[m]]) # Input features 
         
@@ -291,5 +291,5 @@ while(r<len(x1)):
         wrong = wrong + 1
         
     accuracy = (right/len(x1))*100
-
+    r = r+1 # Incrementing the epoch         
 
