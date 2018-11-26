@@ -207,7 +207,7 @@ while(r<len(x1)):
     # Initialize training sample order and predicted output.
     
     m = 0;
-    Z = np.zeros(1,len(x1))
+    Z = np.zeros(1,len(x1)-1)
     
     # Initializaing training data 
     x11 = x1
@@ -231,7 +231,7 @@ while(r<len(x1)):
     
     r = r+1 # Incrementing the epoch 
             
-    while(m<lengthX11):
+    while(m<lengthX11-1):
         
         Xm = np.array([1, x11[m], x22[m], x33[m], x44[m]]) # Input features 
         
@@ -283,9 +283,9 @@ while(r<len(x1)):
     test_netk_1 = np.dot(test_Ym,who1)
     testZ = np.tanh(test_netk_1)
     
-    if ((testZ > 0) & (t>0)):
+    if ((testZ > 0) & (testTar>0)):
         right = right + 1
-    elif ((testZ < 0) & (t<0)):
+    elif ((testZ < 0) & (testTar<0)):
         right = right + 1
     else:
         wrong = wrong + 1
