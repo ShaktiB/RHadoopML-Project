@@ -189,7 +189,7 @@ wih2 = np.array([0.65, 0.83, 0.37, 0.15, 0.32]) # Weight vector --> input to hid
 wih3 = np.array([0.35, 0.95, 0.25, 0.62, 0.45]) # Weight vector --> input to hidden node 3 
 who1 = np.array([0.42, 0.59, 0.56, 0.75]) # Weight vector --> hidden layer to output node 
 
-j = np.zeros(maxIterations,1) # Cost 
+j = np.zeros(len(x1)) # Cost 
 
 r = 0;
 
