@@ -1,3 +1,0 @@
-# Links related to R: 
-
-getwd() and setdw() functions 
