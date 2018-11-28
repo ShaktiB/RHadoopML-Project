@@ -11,7 +11,9 @@ respiratoryAnalysis.py: This script contains the main code where the data is loa
 -------------
 Few graphs which were used to help analyze the data to choose distinct features. 
 
-![](Graphs/AdmissionTypeDistribution.jpg)
+![](Graphs/AdmissionTypeDistribution.jpeg)
 -- This histogram displays the distribution of the age in both classes (Discharged home and discharged other). Due to highly similarity in the dsitribution of the data, 'Admission Type' was not chosen as a feature .
 Note: Home classes has about 4000 more samples of data. 
+
+
 
