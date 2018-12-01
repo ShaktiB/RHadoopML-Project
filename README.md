@@ -18,3 +18,5 @@ Note: Home classes has about 4000 more samples of data.
 ![](Graphs/LossFunction2500.jpeg)
 -- Graph displaying the loss function over 2500 epochs. 
 
+![](Graphs/MNN.jpg)
+-- Simple diagram of the neural network 
